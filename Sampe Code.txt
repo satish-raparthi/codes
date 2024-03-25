@@ -1,0 +1,231 @@
+
+#define USART_BAUDRATE 9600
+#define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+
+
+#include <avr/io.h>
+#include <util/delay.h>
+
+#include "lcd.h"
+
+void usart_init();
+unsigned int usart_getch();
+
+unsigned char i, data[12];
+void getdata(void);
+uint16_t r;
+
+
+}
+void main()
+{
+	_delay_ms(100);	//Let the LCD Module start
+	LCDInit(LS_NONE);
+	LCDClear();
+	LCDWriteStringXY(0,0," FLOOR CLEANING ");
+	LCDWriteStringXY(0,1,"      ROBOT     ");
+	_delay_ms(2000);
+
+    DDRC=0XFF;
+    PORTC=0X00;
+
+    usart_init();
+	HCSR04Init();
+ 
+	while(1)
+	{   
+    getdata();	
+
+	if(data[0]=='F')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"     FORWARD    ");
+
+  	_delay_ms(100);
+    
+	PORTC|=(1<<0);
+	PORTC&=~(1<<1);
+	PORTC|=(1<<2);
+	PORTC&=~(1<<3);
+
+	}
+
+	else if(data[0]=='B')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"    BACKWARD    ");
+
+	_delay_ms(300);
+
+    PORTC|=(1<<1);
+	PORTC&=~(1<<0);
+	PORTC|=(1<<3);
+	PORTC&=~(1<<2);
+
+	}
+
+	else if(data[0]=='L')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"      LEFT      ");
+
+    PORTC|=(1<<0);
+	PORTC&=~(1<<1);
+	PORTC|=(1<<3);
+	PORTC&=~(1<<2);
+
+	_delay_ms(300);
+
+    PORTC&=~(1<<0);
+	PORTC&=~(1<<1);
+	PORTC&=~(1<<2);
+	PORTC&=~(1<<3);
+
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"      STOP      ");
+	}
+
+    else if(data[0]=='R')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"     RIGHT      ");
+	
+    PORTC|=(1<<1);
+	PORTC&=~(1<<0);
+	PORTC|=(1<<2);
+	PORTC&=~(1<<3);
+
+	_delay_ms(700);
+
+    PORTC&=~(1<<0);
+	PORTC&=~(1<<1);
+	PORTC&=~(1<<2);
+	PORTC&=~(1<<3);
+
+
+	LCDClear();
+    LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"      STOP      ");
+	}
+
+	else if(data[0]=='S')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"      STOP      ");
+    
+	PORTC&=~(1<<0);
+	PORTC&=~(1<<1);
+	PORTC&=~(1<<2);
+	PORTC&=~(1<<3);
+
+	_delay_ms(300);
+	}
+
+	else if(data[0]=='0')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  BRUSH  MOTOR  ");
+	LCDWriteStringXY(0,1,"       ON       ");
+
+    PORTC|=(1<<4);
+
+	_delay_ms(500);
+
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	}
+
+	else if(data[0]=='1')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"  BRUSH MOTOR   ");
+	LCDWriteStringXY(0,1,"      OFF       ");
+
+    PORTC&=~(1<<4);
+
+	_delay_ms(500);
+
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	}
+
+	else if(data[0]=='2')
+	{
+	LCDClear();
+	LCDWriteStringXY(0,0,"VACUUM  CLEANER ");
+	LCDWriteStringXY(0,1,"       ON       ");
+
+    PORTC|=(1<<5);
+
+	_delay_ms(500);
+
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	}
+
+	else if(data[0]=='3')
+	{
+	LCDClear();
+	LCDClear();
+	LCDWriteStringXY(0,0,"VACUUM  CLEANER ");
+	LCDWriteStringXY(0,1,"      OFF       ");
+
+    PORTC&=~(1<<5);
+
+	_delay_ms(500);
+
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	}
+
+
+
+	else if(data[0]=='C')
+	{
+	LCDClear(); 
+	LCDWriteStringXY(0,0,"    BLUETOOTH   ");
+	LCDWriteStringXY(0,1,"    CONNECTED   ");
+	_delay_ms(1000);
+	LCDClear();
+    LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"     CONTROL    ");
+	}
+
+
+	else if(data[0]=='D')
+	{
+	LCDClear(); 
+	LCDWriteStringXY(0,0,"    BLUETOOTH   ");
+	LCDWriteStringXY(0,1,"   DISCONNECTED ");
+	_delay_ms(1000);
+	LCDClear();
+	LCDWriteStringXY(0,0,"  VEHICLE MOVE  ");
+	LCDWriteStringXY(0,1,"     STOP    ");
+    
+    PORTC=0X00;
+
+	}
+
+	}
+
+	}
+
+
+void getdata(void)	//Function to get 12 byte ID no. from rfid data
+{	
+	for(i=0;i<1;i++) 
+	{
+		data[i]= usart_getch();	// receive data value byte by byte
+		
+	}
+	return;
+}
+
+
+
