@@ -1,9 +1,5 @@
-  <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JSON Data Table</title>
 <style>
     table {
         border-collapse: collapse;
@@ -24,46 +20,43 @@
 </style>
 </head>
 <body>
-
 <table id="jsonTable">
-    <thead>
         <tr>
-           
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
              <th>Avatar</th>
         </tr>
-    </thead>
     <tbody>
     </tbody>
 </table>
 
+
 <script>
-    // Function to make AJAX call
+
+// Function to make AJAX call
     
     function fetchJSONData() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var data = JSON.parse(this.responseText);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var data = JSON.parse(xmlhttp.responseText);
                 displayData(data.data);
             }
         };
-        xhttp.open("GET", "https://reqres.in/api/users?page=2", true);
-        xhttp.send();
+        xmlhttp.open("GET", "https://reqres.in/api/users?page=2", true);
+        xmlhttp.send();
     }
 
     // Function to display data in the table
     function displayData(data) {
         var tableBody = document.querySelector("#jsonTable tbody");
-        tableBody.innerHTML = "";
-
         data.forEach(function(item) {
             var row = document.createElement("tr");
             row.innerHTML = "<td>" + item.id + "</td>" +
                             "<td>" + item.first_name + " " + item.last_name + "</td>" +
-                            "<td>" + item.email + "</td>"+ "<td><img src='" + item.avatar + "' alt='Avatar' class='avatar'></td>" 
+                            "<td>" + item.email + "</td>"+
+                            "<td><img src='" + item.avatar + "' alt='Avatar' class='avatar'></td>" 
             tableBody.appendChild(row);
         });
     }
