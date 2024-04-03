@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Table</title>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<table id="productTable">
+  <thead>
+    <tr>
+      <th rowspan="2">ID</th>
+      <th rowspan="2">Title</th>
+      <th rowspan="2">Description</th>
+      <th rowspan="2">Price</th>
+      <th rowspan="2">Category</th>
+      <th colspan="2">Rating</th>
+      <th rowspan="2">Image</th>
+    </tr>
+    <tr>
+    <th> Rate </th>
+    <th> Count</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script>
+  // Make AJAX request
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://fakestoreapi.com/products', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var products = JSON.parse(xhr.responseText);
+      displayProducts(products);
+    }
+  };
+  xhr.send();
+
+  // Function to display products in table
+  function displayProducts(products) {
+    var tableBody = document.querySelector('#productTable tbody');
+    products.forEach(function(product) {
+      var row = document.createElement('tr');
+      var rating = product.rating; // Assuming rating is an object with "rate" and "count" properties
+      row.innerHTML = `
+        <td>${product.id}</td>
+        <td>${product.title}</td>
+        <td>${product.description}</td>
+        <td>${product.price}</td>
+        <td>${product.category}</td>
+        <td>${rating.rate}</td>
+        <td>${rating.count}</td>
+        <td><img src="${product.image}" alt="${product.title}" width="50"></td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+</script>
+
+</body>
+</html>
