@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center; /* Center align the heading */
+        }
+        
+        /* Center align labels */
+        .label-container {
+            text-align: center;
+        }
+
+        .label-container h9 {
+            display: inline-block;
+            width: 100px; /* Adjust the width as needed */
+        }
+
+        input[type="text"] {
+            width: 200px; /* Adjust the width of textboxes */
+        }
+
+        /* Center align buttons */
+        .button-line {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-line button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        /* White division for placing photo */
+        .photo-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            width: 200px; /* Adjust the width as needed */
+            height: 200px; /* Adjust the height as needed */
+            margin: 0 auto; /* Center align horizontally */
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Crud using Ajax Calls</h1>
+    
+    <!-- Input fields for first name, last name, and email -->
+    <div class="label-container">
+        <h9>First Name:</h9> <input type="text" id="firstNameTextBox">
+        <h9>Last Name:</h9> <input type="text" id="lastNameTextBox">
+        <h9>Email:</h9> <input type="text" id="emailTextBox"> <br>
+    </div>
+
+    <!-- White division for placing photo -->
+    
+    <div class="photo-container">
+    <h9> Image</h9>
+    </div>
+
+    <!-- Center align buttons -->
+    <div class="button-line">
+        <button>First</button>
+        <button>Next</button>
+        <button>Prev</button>
+        <button>Last</button>
+    </div>
+    <div class="button-line">
+        <button>Add</button>
+        <button>Edit</button>
+        <button>Delete</button>
+        <button>Save</button>
+    </div>
+    <div class="button-line">
+        <button>Clear</button>
+        <button>Exit</button>
+    </div>
+</body>
+</html>
+    
