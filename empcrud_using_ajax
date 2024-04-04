@@ -2,6 +2,7 @@
 <html>
 <head>
     <style>
+        /* Your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -50,6 +51,7 @@
             margin: 0 auto; /* Center align horizontally */
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Employee Crud using Ajax Calls</h1>
@@ -62,28 +64,70 @@
     </div>
 
     <!-- White division for placing photo -->
-    
     <div class="photo-container">
-    <h9> Image</h9>
+        <h9> Image</h9>
+        <img id="userImage" src="" alt="User Image">
     </div>
 
     <!-- Center align buttons -->
     <div class="button-line">
-        <button>First</button>
-        <button>Next</button>
-        <button>Prev</button>
-        <button>Last</button>
+        <button id="firstButton">First</button>
+        <button id="prevButton">Prev</button>
+        <button id="nextButton">Next</button>
+        <button id="lastButton">Last</button>
     </div>
-    <div class="button-line">
-        <button>Add</button>
-        <button>Edit</button>
-        <button>Delete</button>
-        <button>Save</button>
-    </div>
-    <div class="button-line">
-        <button>Clear</button>
-        <button>Exit</button>
-    </div>
+
+    <script>
+        $(document).ready(function() {
+            let currentPage = 1;
+            let totalPages = 1; // Initially set to 1, will be updated after fetching data
+            const perPage = 1; // Number of users per page
+
+            function fetchUserData(page) {
+                $.ajax({
+                    url: `https://reqres.in/api/users?page=${page}`,
+                    method: 'GET',
+                    success: function(data) {
+                        totalPages = data.total_pages;
+                        const user = data.data[0];
+                        $('#firstNameTextBox').val(user.first_name);
+                        $('#lastNameTextBox').val(user.last_name);
+                        $('#emailTextBox').val(user.email);
+                        $('#userImage').attr('src', user.avatar);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            $('#firstButton').click(function() {
+                currentPage = 1;
+                fetchUserData(currentPage);
+            });
+
+            $('#prevButton').click(function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchUserData(currentPage);
+                }
+            });
+
+            $('#nextButton').click(function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchUserData(currentPage);
+                }
+            });
+
+            $('#lastButton').click(function() {
+                currentPage = totalPages;
+                fetchUserData(currentPage);
+            });
+
+            // Load data for the first user initially
+            fetchUserData(currentPage);
+        });
+    </script>
 </body>
 </html>
-    
