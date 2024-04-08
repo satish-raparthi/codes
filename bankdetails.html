@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking Fundas</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+  }
+
+  .heading {
+    font-size: 3em;
+    transition: font-size 0.5s ease-in-out, top 0.5s ease-in-out, align-items 0.5s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .left-image,
+  .right-image {
+    display: none;
+    position: absolute;
+    top: 0;
+    height: 100px;
+    width: 150px;
+    max-width: 50%;
+  }
+
+  .left-image {
+    left: 0;
+  }
+
+  .right-image {
+    right: 0;
+  }
+
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: 120px;
+    left: 8%;
+    transform: translateX(-50%);
+    width: 200px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    z-index: 1;
+  }
+
+  .dropdown select {
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+  }
+
+  .bank-details {
+    display: none;
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    z-index: 1;
+  }
+
+  .bank-details h2 {
+    margin-top: 0;
+  }
+
+  .slide-container {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    display: none;
+  }
+
+  .slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 8000px; /* Set a large width to accommodate all slides */
+  }
+
+  .slide {
+    flex: 0 0 800px; /* Set the width of each slide */
+    max-width: 100%;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and fill the container */
+  }
+</style>
+</head>
+<body>
+<div class="slide-container">
+  <div class="slides">
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%201" alt="Slide 1"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%202" alt="Slide 2"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%203" alt="Slide 3"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%204" alt="Slide 4"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%205" alt="Slide 5"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%206" alt="Slide 6"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%207" alt="Slide 7"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%208" alt="Slide 8"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%209" alt="Slide 9"></div>
+    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide%2010" alt="Slide 10"></div>
+  </div>
+</div>
+<img class="left-image" src="https://t4.ftcdn.net/jpg/00/61/06/27/360_F_61062796_NF87GPnWV0fQ2LhoYNlyjev0PocRwZj9.jpg" alt="Left Image">
+<div class="dropdown">
+  <select id="bankSelector" onchange="showBankDetails()">
+    <option value="select">Select</option>
+    <option value="axis">Axis Bank</option>
+    <option value="boi">Bank of India</option>
+    <option value="canara">Canara Bank</option>
+    <option value="cggb">Chaitanya Godavari Grameena Bank</option>
+    <option value="hdfc">HDFC Bank</option>
+    <option value="icici">ICICI Bank</option>
+    <option value="kmb">Kotak Mahindra Bank</option>
+    <option value="union">Union Bank</option>
+    <!-- Add more options as needed -->
+  </select>
+</div>
+<img class="right-image" src="https://pennanttech.com/wp-content/uploads/2021/08/Pennant-logo-color-1.png" alt="Right Image">
+<h1 class="heading">Banking Fundas</h1>
+
+<div id="bankDetails" class="bank-details">
+  <h2 id="bankName"></h2>
+  <div id="loanDetails"></div>
+</div>
+
+<script>
+var slideIndex = 0;
+var slides = document.querySelectorAll('.slide');
+
+function showSlides() {
+  slideIndex++;
+  if (slideIndex >= slides.length) {
+    slideIndex = 0;
+  }
+  var slideWidth = slides[0].clientWidth;
+  // Hide all slides first
+  slides.forEach(function(slide) {
+    slide.style.display = 'none';
+  });
+  // Show the current slide
+  slides[slideIndex].style.display = 'block';
+  setTimeout(showSlides, 3000); // Change slides every 3 seconds
+}
+
+showSlides();
+
+function showBankDetails() {
+  var selector = document.getElementById("bankSelector");
+  var selectedValue = selector.options[selector.selectedIndex].value;
+  var bankName = document.getElementById("bankName");
+  var loanDetails = document.getElementById("loanDetails");
+
+  if (selectedValue === "select") {
+    document.getElementById("bankDetails").style.display = "none";
+    document.querySelector('.slide-container').style.display = "block"; // Show slide container when select is changed
+  } else {
+    document.getElementById("bankDetails").style.display = "block";
+    bankName.textContent = selectedValue;
+    loanDetails.innerHTML = getLoanDetails(selectedValue);
+    document.querySelector('.slide-container').style.display = "none"; // Hide the slides when a bank type is selected
+  }
+}
+
+function getLoanDetails(bank) {
+  switch (bank) {
+    case "axis":
+      return "<strong>Loan Types:</strong> Home Loan, Personal Loan<br><strong>Interest Rate:</strong> 8.5% - 10.5%";
+    case "boi":
+      return "<strong>Loan Types:</strong> Education Loan, Car Loan<br><strong>Interest Rate:</strong> 7.5% - 11%";
+    case "canara":
+      return "<strong>Loan Types:</strong> Business Loan, Gold Loan<br><strong>Interest Rate:</strong> 9% - 12%";
+    case "cggb":
+      return "<strong>Loan Types:</strong> Agriculture Loan, Kisan Credit Card<br><strong>Interest Rate:</strong> 6% - 9%";
+    case "hdfc":
+      return "<strong>Loan Types:</strong> Loan Against Property, Two Wheeler Loan<br><strong>Interest Rate:</strong> 9% - 11%";
+    case "icici":
+      return "<strong>Loan Types:</strong> Personal Loan, Home Renovation Loan<br><strong>Interest Rate:</strong> 9.5% - 11.5%";
+    case "kmb":
+      return "<strong>Loan Types:</strong> Savings Account, Current Account<br><strong>Interest Rate:</strong> 3% - 6%";
+    case "union":
+      return "<strong>Loan Types:</strong> Housing Loan, Education Loan<br><strong>Interest Rate:</strong> 8% - 10%";
+    default:
+      return "";
+  }
+}
+
+setTimeout(function() {
+  var heading = document.querySelector('.heading');
+  heading.style.fontSize = '1.5em';
+  heading.style.top = '10px';
+  heading.style.left = '50%';
+  heading.style.transform = 'translateX(-50%)'; 
+  setTimeout(function() {
+    document.querySelector('.left-image').style.display = 'block';
+    document.querySelector('.right-image').style.display = 'block';
+    document.querySelector('.dropdown').style.display='block';
+    document.querySelector('.slide-container').style.display='block';
+  }, 500);
+}, 2000);
+</script>
+</body>
+</html>
