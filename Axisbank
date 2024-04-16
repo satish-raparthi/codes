@@ -1,0 +1,25 @@
+<zk>
+    <window title="Loan Information" border="normal" width="300px" height="200px">
+        <vlayout>
+            <label value="Axis Bank" style="font-weight:bold;"/>
+            <separator/>
+            <grid>
+                <columns>
+                    <column label="Loan Type"/>
+                    <column label="Interest Rate"/>
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Gold Loan"/>
+                        <label value="10%"/>
+                    </row>
+                    <row>
+                        <label value="Vehicle Loan"/>
+                        <label value="12%"/>
+                    </row>
+                </rows>
+            </grid>
+            <label value="Best Loan of Axis Bank is 'Gold Loan'" style="color:blue;"/>
+        </vlayout>
+    </window>
+</zk>
